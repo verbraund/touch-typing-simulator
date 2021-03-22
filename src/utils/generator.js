@@ -12,7 +12,7 @@ export const generateWord = (symbols, length) => {
     return word;
 };
 
-export function generator(symbols, length, maxWordLength = 10){
+export function generator(symbols, length, maxWordLength = 10, minWordLength = 1){
 
 
     let text = [];
@@ -20,7 +20,7 @@ export function generator(symbols, length, maxWordLength = 10){
 
     while(text.length < length){
 
-        let l = rand(1,maxWordLength);
+        let l = rand(minWordLength,maxWordLength);
         if(l === 1 && maxWordLength > 1 && rand(0,10) < 7){
             l = rand(2,maxWordLength);
         }

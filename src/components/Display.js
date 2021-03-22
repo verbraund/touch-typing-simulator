@@ -10,17 +10,21 @@ const Display = ({text, lesson}) => {
     const current = localExpect.shift();
 
     return (
-        <div className={'input ' + (wrong ? 'error' : '') + (pause ? 'disabled' : '')}>
-            <pre className="passed">
-                {localPassed.reverse().join('')}
-            </pre>
-            <div className="expect">
-                <pre className="current">
-                    {current === ' ' ? '_' : current}
-                </pre>
-                <pre className="following">
-                    {localExpect.join('')}
-                </pre>
+        <div className="row mt-5">
+            <div className="col">
+                <div className={'input ' + (wrong ? 'error' : '') + (pause ? 'disabled' : '')}>
+                    <pre className="passed">
+                        {localPassed.reverse().join('')}
+                    </pre>
+                    <div className="expect">
+                        <pre className="current">
+                            {current === ' ' ? '_' : current}
+                        </pre>
+                        <pre className="following">
+                            {localExpect.join('')}
+                        </pre>
+                    </div>
+                </div>
             </div>
         </div>
     );

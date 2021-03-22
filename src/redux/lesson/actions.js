@@ -2,6 +2,7 @@ import {START_LESSON, STOP_LESSON, PAUSE_LESSON, RESUME_LESSON, CLEAN_LESSON} fr
 import {cleanText, setText} from "../text/actions";
 import {saveToStat} from "../stat/actions";
 import {generator} from "../../utils/generator";
+import {hideSettings, showSettings} from "../settings/actions";
 
 export const completeLesson = () => {
     return (dispatch, getState) => {
@@ -10,6 +11,7 @@ export const completeLesson = () => {
         const {lesson, text , settings} = getState();
         dispatch(saveToStat({lesson, text , settings}));
         dispatch(clearLesson());
+        dispatch(showSettings());
     };
 };
 
@@ -18,13 +20,22 @@ export const resetLesson = () => {
         dispatch(stopLesson());
         dispatch(cleanText());
         dispatch(clearLesson());
+        dispatch(showSettings());
     };
 };
 
 export const newLesson = () => {
     return (dispatch, getState) => {
         const {settings} = getState();
-        dispatch(setText(generator(settings.keys.learning, settings.text.length)));
+        dispatch(hideSettings());
+        dispatch(setText(
+            generator(
+                settings.keys.learning,
+                settings.text.length,
+                settings.text.word.max,
+                settings.text.word.min
+            )
+        ));
         dispatch(startLesson());
     };
 };

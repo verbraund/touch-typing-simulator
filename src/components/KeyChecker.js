@@ -24,10 +24,12 @@ const KeyChecker = ({text, settings, lesson, saveError, pushedKey, pushedWrongKe
     };
 
     useEffect(() => {
-        document.addEventListener('keypress', keyPressHandler);
-        return () => {
-            document.removeEventListener('keypress', keyPressHandler);
-        };
+        if(lesson.running){
+            document.addEventListener('keypress', keyPressHandler);
+            return () => {
+                document.removeEventListener('keypress', keyPressHandler);
+            };
+        }
     });
 
     return null;
