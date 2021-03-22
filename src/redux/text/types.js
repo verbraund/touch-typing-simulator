@@ -1,0 +1,5 @@
+export const PUSHED_KEY = 'TEXT/PUSHED_KEY';
+export const RESET_TEXT = 'TEXT/RESET_TEXT';
+export const SHOW_ERROR = 'TEXT/SHOW_ERROR';
+export const HIDE_ERROR = 'TEXT/HIDE_ERROR';
+export const PUSH_ERROR_SYMBOL = 'TEXT/PUSH_ERROR_SYMBOL';
