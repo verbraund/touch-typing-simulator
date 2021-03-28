@@ -4,13 +4,17 @@ import {
     SHOW_SETTINGS,
     HIDE_SETTINGS,
     INCREMENT_TEXT_LENGTH,
-    DECREMENT_TEXT_LENGTH, SET_MAX_WORD_LENGTH
+    DECREMENT_TEXT_LENGTH,
+    SET_MAX_WORD_LENGTH,
+    SHOW_KEYBOARD_GRID,
+    HIDE_KEYBOARD_GRID
 } from "./types";
 
 const initialState = {
     display: true,
     keys: {
-        learning: ['f'],
+        learning: ['А', 'О'],
+        grid: false
     },
     text: {
         length: 200,
@@ -54,6 +58,14 @@ export const settingsReducer = (state = initialState, {type, payload}) => {
 
         case REMOVE_LEARNING_KEY:
             return {...state, keys: {...state.keys, learning: state.keys.learning.filter(i => i !== payload)}};
+
+        case SHOW_KEYBOARD_GRID:
+            return {...state, keys: {...state.keys, grid: true}};
+
+        case HIDE_KEYBOARD_GRID:
+            return {...state, keys: {...state.keys, grid: false}};
+
+
 
         default: return state;
     }

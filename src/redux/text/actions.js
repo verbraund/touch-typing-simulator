@@ -1,8 +1,9 @@
-import {HIDE_ERROR, PUSHED_KEY, RESET_TEXT, SHOW_ERROR, PUSH_ERROR_SYMBOL} from "./types";
+import {HIDE_ERROR, PUSHED_CORRECTLY_KEY, RESET_TEXT, SHOW_ERROR, PUSHED_WRONG_SYMBOL} from "./types";
 
-export const pushedKey = (symbol) => ({type: PUSHED_KEY, payload: symbol});
+export const pushedCorrectlyKey = () => ({type: PUSHED_CORRECTLY_KEY});
 export const pushedWrongKey = () => {
     return (dispatch) => {
+        dispatch(saveError());
         dispatch(showError());
         setTimeout(() => {
             dispatch(hideError());
@@ -12,7 +13,7 @@ export const pushedWrongKey = () => {
 
 export const showError = () => ({type: SHOW_ERROR});
 export const hideError = () => ({type: HIDE_ERROR});
-export const saveError = (symbol) => ({type: PUSH_ERROR_SYMBOL, payload: symbol});
+export const saveError = () => ({type: PUSHED_WRONG_SYMBOL});
 
-export const setText = (text) => ({type: RESET_TEXT, payload: text});
+export const setText = (text) => ({type: RESET_TEXT, payload: text.map(k => ({symbol: k, error: false}))});
 export const cleanText = () => ({type: RESET_TEXT, payload: []});

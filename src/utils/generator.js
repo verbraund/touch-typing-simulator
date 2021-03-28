@@ -14,6 +14,7 @@ export const generateWord = (symbols, length) => {
 
 export function generator(symbols, length, maxWordLength = 10, minWordLength = 1){
 
+    symbols = symbols.map(k => k.toLowerCase());
 
     let text = [];
     const space = ' ';

@@ -1,7 +1,14 @@
 import {connect} from "react-redux";
-import {decrementTextLength, incrementTextLength, setMaxWordLength} from "../redux/settings/actions";
+import {
+    decrementTextLength,
+    hideKeyboardGrid,
+    incrementTextLength,
+    setMaxWordLength,
+    showKeyboardGrid
+} from "../redux/settings/actions";
+import SettingsKeyboard from "./SettingsKeyboard";
 
-const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWordLength}) => {
+const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWordLength, showKeyboardGrid, hideKeyboardGrid}) => {
 
     if(!settings.display) return null;
 
@@ -40,13 +47,15 @@ const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWor
         return settings.text.word.max === max;
     };
 
-
+    const toggleKeyboardGrid = () => (
+        settings.keys.grid ? hideKeyboardGrid() : showKeyboardGrid()
+    );
 
 
 
 
     return (
-        <div className="row mt-5">
+        <div className="row mt-4">
             <div className="col settings">
                 <div className="row">
                     <div className="col">
@@ -57,7 +66,7 @@ const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWor
                             <button onClick={increment} type="button" className="btn btn-outline-secondary">+</button>
                         </div>
                     </div>
-                    <div className="col text-end">
+                    <div className="col text-center">
                         <div className="btn-group" role="group">
                             <button
                                 onClick={setEasyLevel}
@@ -79,10 +88,18 @@ const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWor
                             >Сложно</button>
                         </div>
                     </div>
-                </div>
-                <div className="row mt-3">
                     <div className="col">
-                        Клавиантура
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" onChange={toggleKeyboardGrid} checked={settings.keys.grid} type="checkbox" id="settingsShowGridChecker" />
+                            <label className="form-check-label" htmlFor="settingsShowGridChecker">
+                                Показать сетку
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-5 mb-5">
+                    <div className="col">
+                        <SettingsKeyboard />
                     </div>
                 </div>
             </div>
@@ -92,5 +109,5 @@ const Settings = ({settings, incrementTextLength, decrementTextLength, setMaxWor
 
 export default connect(
     state => ({settings: state.settings}),
-    {incrementTextLength, decrementTextLength, setMaxWordLength}
+    {incrementTextLength, decrementTextLength, setMaxWordLength, showKeyboardGrid, hideKeyboardGrid}
 )(Settings);

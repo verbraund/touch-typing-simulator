@@ -1,4 +1,4 @@
-import {PUSHED_KEY, RESET_TEXT,SHOW_ERROR, HIDE_ERROR, PUSH_ERROR_SYMBOL} from "./types";
+import {PUSHED_CORRECTLY_KEY, RESET_TEXT,SHOW_ERROR, HIDE_ERROR, PUSHED_WRONG_SYMBOL} from "./types";
 
 const initialState = {
 
@@ -15,20 +15,30 @@ export const textReducer = (state = initialState, {type, payload}) => {
 
     switch (type) {
 
-        case PUSHED_KEY:
-            return {...state, passed: [...state.passed, payload], expect: state.expect.slice(1)};
+
+        case PUSHED_CORRECTLY_KEY:
+            return {
+                ...state,
+                passed: [...state.passed, state.current],
+                current: state.expect.shift()
+            };
+
+        case PUSHED_WRONG_SYMBOL:
+            return {
+                ...state,
+                errors: [...state.errors, state.current],
+                passed: [...state.passed, {...state.current, error: true}],
+                current: state.expect.shift()
+            };
 
         case RESET_TEXT:
-            return {...state, passed: [], expect: payload};
+            return {...state, all:[...payload], errors: [], passed: [], current: payload.shift(), expect: payload};
 
         case SHOW_ERROR:
             return {...state, wrong: true};
 
         case HIDE_ERROR:
             return {...state, wrong: false};
-
-        case PUSH_ERROR_SYMBOL:
-            return {...state, errors: [...state.errors, payload]};
 
         default: return state;
     }

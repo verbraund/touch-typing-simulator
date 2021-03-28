@@ -1,27 +1,29 @@
 import {connect} from "react-redux";
 import {useEffect} from "react";
-import {pushedKey, pushedWrongKey, saveError} from "../redux/text/actions";
+import {pushedCorrectlyKey, pushedWrongKey} from "../redux/text/actions";
 import {completeLesson} from "../redux/lesson/actions";
 
-const KeyChecker = ({text, settings, lesson, saveError, pushedKey, pushedWrongKey, completeLesson}) => {
+const KeyChecker = ({text, settings, lesson, pushedCorrectlyKey, pushedWrongKey, completeLesson}) => {
 
-    const localExpect = [...text.expect];
-    const expect = localExpect.shift();
 
+    const {current, expect} = text;
 
     const keyPressHandler = (e) => {
+        e.preventDefault();
 
-        if(e.key === expect){
-            pushedKey(e.key);
-            if(!localExpect.length){
-                completeLesson()
-            }
+        if(e.key === current.symbol){
+            pushedCorrectlyKey();
         }else{
             pushedWrongKey();
-            saveError(expect);
         }
 
     };
+
+    useEffect(() => {
+        if(!expect.length && lesson.running && !current){
+            completeLesson();
+        }
+    });
 
     useEffect(() => {
         if(lesson.running){
@@ -37,5 +39,5 @@ const KeyChecker = ({text, settings, lesson, saveError, pushedKey, pushedWrongKe
 
 export default connect(
     state => ({text: state.text, settings: state.settings, lesson: state.lesson}),
-    {saveError, pushedKey, pushedWrongKey, completeLesson}
+    {pushedCorrectlyKey, pushedWrongKey, completeLesson}
 )(KeyChecker)
